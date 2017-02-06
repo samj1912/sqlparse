@@ -52,15 +52,21 @@ int main(int argc, char const *argv[])
     regcomp(&re[0] , "^\"[^\"]\""                                    , REG_ICASE | REG_NEWLINE );
     regcomp(&re[0] , "^[ \t\r\n][ \t\r\n]*"                          , REG_ICASE | REG_NEWLINE );
 
-    while(1)
+    char pattern[1000];
+    strcpy(pattern, input);
+
+    regmatch_t matchptr[10];
+    while(pattern != "")
     {
         for(i=0;i<sizeof(re)/sizeof(re[0]);i++)
         {
-            if(regexec(&re[i], pattern, 0, NULL, 0))
+            if(regexec(&re[i], pattern, 10, matchptr, 0) == 0)
             {
-                printf("%s\n", names[i]);
-                
+                pattern += matchptr[0].rm_eo;
+                printf("%s\n", names[i]);  
             }
+            else
+                printf("Unexpected expression\n");
         }
     }
 
