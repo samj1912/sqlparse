@@ -40,3 +40,4 @@
 #define INT_LITERAL    40
 #define STRING_LITERAL 41
 #define SPACE          42
+#define SEMICOLON      43

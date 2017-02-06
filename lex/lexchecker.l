@@ -20,7 +20,7 @@ not                                        { return NOT; }
 null                                       { return TOKEN_NULL; }
 and                                        { return AND; }
 or                                         { return OR; }
-!=|<>|>=|<=|>|<                            { return COMPARATOR; }
+=|!=|<>|>=|<=|>|<                          { return COMPARATOR; }
 references                                 { return REFERENCES; }
 order                                      { return ORDER; }
 by                                         { return BY; }
@@ -35,9 +35,9 @@ in                                         { return IN; }
 true                                       { return TRUE; }
 false                                      { return FALSE; }
 distinct                                   { return DISTINCT; }
-set                                        { return SET;}
-drop                                       { return DROP;}
-alter                                      { return ALTER;}
+set                                        { return SET; }
+drop                                       { return DROP; }
+alter                                      { return ALTER; }
 add                                        { return ADD; }
 column                                     { return COLUMN; }
 \*                                         { return ALL_COLUMN; }
@@ -45,9 +45,10 @@ column                                     { return COLUMN; }
 \)                                         { return BRACKET_CLOSE; }
 [a-zA-Z][a-zA-Z0-9_]*                      { return IDENTIFIER; }
 [+-]?[0-9]+                                { return INT_LITERAL; }
-\"[^\"]\"                                  { return STRING_LITERAL; }
-[ \t\r\n]+                                 {  }
-.                                          ;
+\"[^\"]*\"                                 { return STRING_LITERAL; }
+[ \t\r\n]+                                 { printf(" "); }
+;                                          { return SEMICOLON; }
+.                                          { printf("\nUnmatched expression\n"); }
 
 %%
 
