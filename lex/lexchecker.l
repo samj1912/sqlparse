@@ -20,23 +20,12 @@ not                             { return NOT; }
 null                            { return TOKEN_NULL; }
 and                             { return AND; }
 or                              { return OR; }
-"!="                            { return NEQ; }
-"<>"                            { return NEQ; }
-">="                            { return GEQ; }
-"<="                            { return LEQ; }
-">"                             { return GT; }
-"<"                             { return LT; }
+!=|<>|>=|<=|>|<               { return COMPARATOR; }
 references                      { return REFERENCES; }
 order                           { return ORDER; }
 by                              { return BY; }
 delete                          { return DELETE; }
-int                             { return INT; }
-integer                         { return INT; }
-double                          { return DOUBLE; }
-char                            { return CHAR; }
-varchar                         { return VARCHAR; }
-bit                             { return BIT; }
-text                            { return TEXT; }
+(int|integer|double|char|varchar|bit|text) {return DATATYPE; }
 values                          { return VALUES; }
 auto_increment                  { return AUTO_INCREMENT; }
 asc                             { return ASC; }
