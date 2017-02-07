@@ -41,3 +41,4 @@
 #define STRING_LITERAL 41
 #define SPACE          42
 #define SEMICOLON      43
+#define INVALID 	   44

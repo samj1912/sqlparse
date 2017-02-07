@@ -5,7 +5,7 @@
 
 #define SIZE 43
 
-char *names[]={"CREATE","TABLE","INSERT","INTO","SELECT","FROM","WHERE","PRIMARY","FOREIGN","KEY","DEFAULT","NOT","TOKEN_NULL","AND","OR","COMPARATOR","REFERENCES","ORDER","BY","DELETE","DATATYPE","VALUES","AUTO_INCREMENT","ASC","DESC","UNIQUE","IN","TRUE","FALSE","DISTINCT","SET","DROP","ALTER","ADD","COLUMN","ALL_COLUMN","BRACKET_OPEN","BRACKET_CLOSE","IDENTIFIER","INT_LITERAL","STRING_LITERAL","","SEMICOLON"};
+char *names[]={"CREATE","TABLE","INSERT","INTO","SELECT","FROM","WHERE","PRIMARY","FOREIGN","KEY","DEFAULT","NOT","TOKEN_NULL","AND","OR","COMPARATOR","REFERENCES","ORDER","BY","DELETE","DATATYPE","VALUES","AUTO_INCREMENT","ASC","DESC","UNIQUE","IN","TRUE","FALSE","DISTINCT","SET","DROP","ALTER","ADD","COLUMN","ALL_COLUMN","BRACKET_OPEN","BRACKET_CLOSE","IDENTIFIER","INT_LITERAL","STRING_LITERAL","","SEMICOLON\n"};
 
 int main(int argc, char const *argv[])
 {
@@ -13,7 +13,6 @@ int main(int argc, char const *argv[])
     char input[1000];
     regex_t re[SIZE];
 
-    fgets(input, 1000, stdin);
 
     regcomp(&re[0]  , "^create\\b"                                                  , REG_ICASE | REG_NEWLINE );
     regcomp(&re[1]  , "^table\\b"                                                   , REG_ICASE | REG_NEWLINE );
@@ -59,40 +58,42 @@ int main(int argc, char const *argv[])
     regcomp(&re[41] , "^[ \t\r\n][ \t\r\n]*"                                        , REG_ICASE | REG_NEWLINE );
     regcomp(&re[42] , "^;"                                                          , REG_ICASE | REG_NEWLINE );
 
-    char pattern[1000];
-    strcpy(pattern, input);
+    while(fgets(input, 1000, stdin))
+    {       
+        char pattern[1000];
+        strcpy(pattern, input);
 
-    char *match_string = pattern;
-    regmatch_t matchptr[10];
+        char *match_string = pattern;
+        regmatch_t matchptr[10];
 
-    printf("--------------------------------------------------\n");
-    printf("Input code:\n");
-    printf("%s\n",match_string);
-    printf("--------------------------------------------------\n");
+        printf("--------------------------------------------------\n");
+        printf("Input code:\n");
+        printf("%s\n",match_string);
+        printf("--------------------------------------------------\n");
+        printf("Output:\n");
 
-    while(match_string[0]!='\0')
-    {
-        flag = 0;
-        for(i=0;i<SIZE;i++)
+        while(match_string[0]!='\0')
         {
-            if(regexec(&re[i], match_string, 10, matchptr, 0) == 0)
+            flag = 0;
+            for(i=0;i<SIZE;i++)
             {
-                match_string += matchptr[0].rm_eo;
-                printf("%s ", names[i]);
-                flag = 1;
+                if(regexec(&re[i], match_string, 10, matchptr, 0) == 0)
+                {
+                    match_string += matchptr[0].rm_eo;
+                    printf("%s ", names[i]);
+                    flag = 1;
+                }
+            }
+            if(flag==0)
+            {
+                printf("\n");
+                printf("\nUnexpected expression\n");
+                printf("%s\n",match_string);
+                printf("--------------------------------------------------\n\n\n");
+                break;
             }
         }
-        if(flag==0)
-        {
-            printf("\n");
-            printf("--------------------------------------------------");
-            printf("\nUnexpected expression\n");
-            printf("%s\n",match_string);
-            printf("--------------------------------------------------");
-            break;
-        }
+        printf("\n");
     }
-    printf("\n");
-
     return 0;
 }

@@ -44,11 +44,13 @@ column                                     { return COLUMN; }
 \(                                         { return BRACKET_OPEN; }
 \)                                         { return BRACKET_CLOSE; }
 [a-zA-Z][a-zA-Z0-9_]*                      { return IDENTIFIER; }
+`[a-zA-Z][a-zA-Z0-9_]*`                    { return IDENTIFIER; }
 [+-]?[0-9]+                                { return INT_LITERAL; }
 \"[^\"]*\"                                 { return STRING_LITERAL; }
+\'[^\"]*\'                                 { return STRING_LITERAL; }
 [ \t\r\n]+                                 { printf(" "); }
 ;                                          { return SEMICOLON; }
-.                                          { printf("\nUnmatched expression\n"); }
+.                                          { return INVALID; }
 
 %%
 
